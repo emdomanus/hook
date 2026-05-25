@@ -1,0 +1,22 @@
+{
+  "name": "hook-dev",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "Hook": {
+        "$path": "src"
+      }
+    },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "HookDev": {
+          "$path": "dev/client"
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,32 @@
+[package]
+name = "emdomanus/hook"
+description = "A tiny low-overhead id-based subscriber list for Roblox."
+version = "0.1.0"
+license = "MIT"
+authors = ["emdomanus"]
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+include = ["src", "wally.toml", "default.project.json", "README.md", "LICENSE"]
+exclude = [
+	"Packages",
+	"Packages/**",
+	"aftman.toml",
+	"selene.toml",
+	"stylua.toml",
+	".vscode",
+	".vscode/**",
+	"dev",
+	"dev/**",
+	"dev.project.json",
+	"dev-sourcemap.json",
+	"hook-dev.rbxlx",
+	"hook-package.tar.gz",
+	"sourcemap.json",
+	"*.rbxm",
+	"*.rbxmx",
+	"*.rbxlx",
+	"*.tar.gz",
+]
+
+[dependencies]
+
