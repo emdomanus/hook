@@ -7,7 +7,7 @@ It is built for hot callback lists where returned unbind closures and hash-table
 ```luau
 local Hook = require(path.to.hook)
 
-local stepped = Hook.new<number>()
+local stepped: Hook.HookHandle<number> = Hook.new()
 
 local id = stepped:add(function(dt)
 	print(dt)
