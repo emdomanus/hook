@@ -1,5 +1,5 @@
 name = "emdomanus/hook"
-version = "0.1.0"
+version = "0.1.1"
 description = "A tiny low-overhead id-based subscriber list for Roblox."
 license = "MIT"
 authors = ["emdomanus"]

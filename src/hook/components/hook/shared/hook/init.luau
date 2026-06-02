@@ -2,16 +2,17 @@
 --!optimize 2
 --!native
 
-local HookTypes = require(script.Parent.Parent.Parent.Parent.types.components.hooks)
+local HookTypes = require(script.Parent.Parent.Parent.Parent.types.hook)
 
 type Callback<T...> = HookTypes.Callback<T...>
-type Hook<T...> = HookTypes.Hook<T...>
+type HookPublic<T...> = HookTypes.Hook<T...>
+type HookImpl<T...> = HookTypes.HookImpl<T...>
 
 local Hook = {}
 Hook.__index = Hook
 
 local function ensureStorage<T...>(
-	self: Hook<T...>
+	self: HookImpl<T...>
 ): ({ Callback<T...>? }, { number }, { [number]: number })
 	local callbacks = self._callbacks
 	local ids = self._ids
@@ -32,7 +33,7 @@ local function ensureStorage<T...>(
 	return callbacks, ids, indicesById
 end
 
-local function swapRemove<T...>(self: Hook<T...>, index: number)
+local function swapRemove<T...>(self: HookImpl<T...>, index: number)
 	local count = self._count
 	local callbacks = self._callbacks :: { Callback<T...>? }
 	local ids = self._ids :: { number }
@@ -56,7 +57,7 @@ local function swapRemove<T...>(self: Hook<T...>, index: number)
 	self._activeCount -= 1
 end
 
-local function compact<T...>(self: Hook<T...>)
+local function compact<T...>(self: HookImpl<T...>)
 	local callbacks = self._callbacks
 	local ids = self._ids
 	local indicesById = self._indicesById
@@ -93,17 +94,17 @@ local function compact<T...>(self: Hook<T...>)
 	self._dirty = false
 end
 
-function Hook.new<T...>(): HookTypes.Hook<T...>
+function Hook.new<T...>(): HookPublic<T...>
 	return setmetatable({
 		_nextId = 1,
 		_count = 0,
 		_activeCount = 0,
 		_firing = 0,
 		_dirty = false,
-	}, Hook) :: Hook<T...>
+	}, Hook) :: any
 end
 
-function Hook.add<T...>(self: Hook<T...>, callback: Callback<T...>): number
+function Hook.add<T...>(self: HookImpl<T...>, callback: Callback<T...>): number
 	local callbacks, ids, indicesById = ensureStorage(self)
 	local id = self._nextId
 	self._nextId += 1
@@ -118,7 +119,7 @@ function Hook.add<T...>(self: Hook<T...>, callback: Callback<T...>): number
 	return id
 end
 
-function Hook.remove<T...>(self: Hook<T...>, id: number): boolean
+function Hook.remove<T...>(self: HookImpl<T...>, id: number): boolean
 	local indicesById = self._indicesById
 	if not indicesById then
 		return false
@@ -145,7 +146,7 @@ function Hook.remove<T...>(self: Hook<T...>, id: number): boolean
 	return true
 end
 
-function Hook.fire<T...>(self: Hook<T...>, ...: T...)
+function Hook.fire<T...>(self: HookImpl<T...>, ...: T...)
 	if self._activeCount == 0 then
 		return
 	end
@@ -169,7 +170,7 @@ function Hook.fire<T...>(self: Hook<T...>, ...: T...)
 	end
 end
 
-function Hook.clear<T...>(self: Hook<T...>)
+function Hook.clear<T...>(self: HookImpl<T...>)
 	local callbacks = self._callbacks
 	local ids = self._ids
 	local indicesById = self._indicesById
@@ -203,7 +204,7 @@ function Hook.clear<T...>(self: Hook<T...>)
 	self._dirty = false
 end
 
-function Hook.size<T...>(self: Hook<T...>): number
+function Hook.size<T...>(self: HookImpl<T...>): number
 	if self._dirty and self._firing == 0 then
 		compact(self)
 	end
@@ -211,13 +212,13 @@ function Hook.size<T...>(self: Hook<T...>): number
 	return self._activeCount
 end
 
-function Hook.has<T...>(self: Hook<T...>, id: number): boolean
+function Hook.has<T...>(self: HookImpl<T...>, id: number): boolean
 	local indicesById = self._indicesById
 
 	return indicesById ~= nil and indicesById[id] ~= nil
 end
 
-function Hook.deconstruct<T...>(self: Hook<T...>)
+function Hook.deconstruct<T...>(self: HookImpl<T...>)
 	self:clear()
 end
 

@@ -2,10 +2,9 @@
 --!optimize 2
 --!native
 
-local Hook = require(script.hook)
+local HookModule = require(script.hook)
 
-export type Callback<T...> = Hook.Callback<T...>
-export type Hook<T...> = Hook.Hook<T...>
-export type HookHandle<T...> = Hook.HookHandle<T...>
+export type Callback<T...> = HookModule.Callback<T...>
+export type Hook<T...> = HookModule.Hook<T...>
 
-return Hook
+return HookModule

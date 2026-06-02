@@ -5,9 +5,11 @@ Hook is a tiny id-based subscriber list for Roblox Luau.
 It is built for hot callback lists where returned unbind closures and hash-table callback sets are more overhead than you want.
 
 ```luau
-local Hook = require(path.to.hook)
+local HookModule = require(path.to.hook)
 
-local stepped: Hook.HookHandle<number> = Hook.new()
+type Hook<T...> = HookModule.Hook<T...>
+
+local stepped: Hook<number> = HookModule.new()
 
 local id = stepped:add(function(dt)
 	print(dt)
